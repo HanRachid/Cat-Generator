@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meow!</title>
+  </head>
+  <body>
+    <img src="#" />
+    <button class="button"><span class="text">Generate</span></button>
+    <script>
+      const img = document.querySelector("img");
+      const button = document.querySelector(".button");
+      const body = document.querySelector("body");
+
+      fetch(
+        "https://api.giphy.com/v1/gifs/translate?api_key=ShMsBDMpLrFbmCRasAjM3CTkKwqgCcaB&s=cat",
+        { mode: "cors" }
+      )
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (response) {
+          img.src = response.data.images.original.url;
+        })
+        .then(function (response) {
+          button.addEventListener("click", () => {
+            body.removeChild(img);
+            const loader = document.createElement("div");
+            loader.className = "loader";
+            body.prepend(loader);
+
+            fetch(
+              "https://api.giphy.com/v1/gifs/translate?api_key=ShMsBDMpLrFbmCRasAjM3CTkKwqgCcaB&s=cat",
+              { mode: "cors" }
+            )
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (response) {
+                img.src = response.data.images.original.url;
+                body.removeChild(loader);
+                body.prepend(img);
+              });
+          });
+        });
+    </script>
+  </body>
+</html>
